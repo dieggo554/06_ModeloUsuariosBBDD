@@ -14,5 +14,6 @@ import com.vn.POJOs.Usuario;
  */
 public interface IDaoUsuario extends IGenericDao<Usuario>{
         
-    public Usuario obtenerPorNombre(String nombre);
+    public Usuario obtenerPorEmail(String email);
+
 }
