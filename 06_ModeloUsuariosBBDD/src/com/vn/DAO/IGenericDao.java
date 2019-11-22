@@ -21,4 +21,6 @@ public interface IGenericDao<T> {
     T modificar(int index, T objConDatosNuevo) throws Exception;
     
     boolean eliminar(int index);
+    
+    boolean eliminar(T objEliminable);
 }
