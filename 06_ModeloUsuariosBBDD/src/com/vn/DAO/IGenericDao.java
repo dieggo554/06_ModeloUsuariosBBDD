@@ -16,6 +16,8 @@ public interface IGenericDao<T> {
     
     public abstract T crear(T  objetoNuevo) throws Exception;
     
+    HashMap<Integer, T> obtenerTodos();
+    
     T obtenerPorIndice(int index);
     
     T modificar(int index, T objConDatosNuevo) throws Exception;
