@@ -13,15 +13,18 @@ import java.util.Map;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
+/** Testeao de la clase UsuarioServicio
  *
- * @author pc
+ * @author diego
  */
 public class TestUsuarioService {
 
     final Integer edad;
     final String nombre, dominio, password;
     
+    /** Inicializa variables que utilizaremos repetidamente.
+     *
+     */
     public TestUsuarioService() {
         edad = 50;
         nombre = "Eustaquio Habichuela";
@@ -29,14 +32,26 @@ public class TestUsuarioService {
         password = "abc123.";
     }
 
+    /** Crea un usuario en la base de datos, luego otro en memoria con las mismas
+     * propiedades y compara que sean iguales.
+     * También intenta crear de nuevo el mismo usuario y comprueba que no suceda,
+     * finalmente elimina el usuario.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCrearDosVeces() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "crear" + dominio, password);
-        assertEquals(new Usuario(dominio, password, nombre, edad), usuario);
+        assertEquals(new Usuario("crear" + dominio, password, nombre, edad), usuario);
         assertNull(UsuarioServicio.crear(edad + "", nombre, "crear" + dominio, password));
         UsuarioServicio.eliminar(usuario.getId());
     }
     
+    /** Testea las validaciones de nombre, email, edad y password y comprueba
+     * que no se han creado los usuarios con datos erroneos.
+     *
+     * @throws Exception
+     */
     @Test
     public void testCrearMal() throws Exception {
         // Nombre corto
@@ -60,6 +75,11 @@ public class TestUsuarioService {
         assertNull(usuario);
     }
     
+    /** Crea un usuario, recoge el id y lo busca para comprobar que el resultado
+     * sean igual al creado, luego elimina el usuario.
+     *
+     * @throws Exception
+     */
     @Test
     public void testLeerUsuarioPorId() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "leerId" + dominio, password);
@@ -68,13 +88,23 @@ public class TestUsuarioService {
         UsuarioServicio.eliminar(usuario.getId());
     }
     
+    /** Crea un usuario, luego lo busca por email y los compara, finalmente
+     * elimina el ususario.
+     *
+     * @throws Exception
+     */
     @Test
     public void testLeerUsuarioPorEmail() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "leerEmail" + dominio, password);
-        assertEquals(usuario, UsuarioServicio.leer(dominio));
+        assertEquals(usuario, UsuarioServicio.leer("leerEmail" + dominio));
         UsuarioServicio.eliminar(usuario.getId());
     }
     
+    /** Crea un usuario, lo elimina y comprueba que el método se ha ejecutado
+     * correctamente luego lo busca para comprobar que no existe.
+     *
+     * @throws Exception
+     */
     @Test
     public void testEliminarPorId() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "eliminarId" + dominio, password);
@@ -84,6 +114,11 @@ public class TestUsuarioService {
         assertNull(UsuarioServicio.leer(dominio));
     }
     
+    /** Crea usuario y lo modifica, luego comprueba que dos parámetros se han
+     * modificado, finalmente elimina el usuario.
+     *
+     * @throws Exception
+     */
     @Test
     public void testModificarPorId() throws Exception {
         Integer id;
@@ -95,6 +130,11 @@ public class TestUsuarioService {
         UsuarioServicio.eliminar(usuario.getId());
     }
 
+    /**Crea usuario y lo modifica, luego comprueba que dos parámetros se han
+     * modificado, finalmente elimina el usuario.
+     *
+     * @throws Exception
+     */
     @Test
     public void testModificarObjecto() throws Exception {
         Integer id;
@@ -102,10 +142,15 @@ public class TestUsuarioService {
         id = usuario.getId();
         Usuario usuarioMod = new Usuario(id, "modificarObjModificado" + dominio, "12345", "Juan", edad);
         usuario = UsuarioServicio.modificar(usuarioMod);
-        assertEquals(usuarioMod, usuario);
+        assertEquals("Juan", usuarioMod.getNombre());
+        assertEquals("12345", usuarioMod.getPassword());
         UsuarioServicio.eliminar(usuario.getId());
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void testLeerUsuarios() throws Exception {
         for (int i = 1; i <= 10; i++) {
@@ -120,6 +165,10 @@ public class TestUsuarioService {
         }
     }
     
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void testLeerUsuariosPorNombre() throws Exception {
         for (int i = 1; i <= 5; i++) {
@@ -128,11 +177,12 @@ public class TestUsuarioService {
         UsuarioServicio.crear("50", "Juancho", "emilio@aqui.si", "asdfg");
         UsuarioServicio.crear("55", "Alfredo", "alfi@dredo.no", "qwerty");
         HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos(nombre);
-        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet()) {
-            Integer key = entry.getKey();
-            Usuario value = entry.getValue();
-            System.out.println(value);
-            UsuarioServicio.eliminar(key);
-        }
+        assertEquals(7, usuarios.size());
+        usuarios.entrySet().forEach((usuario) -> {
+            Integer id = usuario.getKey();
+            Usuario obj = usuario.getValue();
+            System.out.println(obj);
+            UsuarioServicio.eliminar(id);
+        });
     }
 }

@@ -5,13 +5,11 @@
  */
 package com.vn.POJOs;
 
-import com.vn.DAO.IDaoUsuario;
-import java.util.HashMap;
 import java.util.Objects;
 
-/**
+/** POJO que almacena las propiedades de casa usuario
  *
- * @author pc
+ * @author pc diego
  */
 public class Usuario {
 

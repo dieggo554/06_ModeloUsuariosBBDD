@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 
 /** static final de los elementos necesarios para hacer la conexion (url, usuario, contraseña)
  *
- * @author Equipo 1
+ * @author alberto
  */
 public class ConexionDerby {
 

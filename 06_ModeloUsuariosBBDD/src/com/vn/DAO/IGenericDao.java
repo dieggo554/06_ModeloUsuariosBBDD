@@ -7,9 +7,9 @@ package com.vn.DAO;
 
 import java.util.HashMap;
 
-/**
+/** Interfaz genérica con los métodos para CRUD.
  *
- * @author pc
+ * @author diego
  * @param <T>
  */
 public interface IGenericDao<T> {
