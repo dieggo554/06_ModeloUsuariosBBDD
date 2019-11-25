@@ -17,6 +17,7 @@ public class ConexionDerby {
     private static final String URL = "jdbc:derby://localhost:1527/06_ModeloUsuariosBBDD";
     private static final String USER = "root";
     private static final String PASS = "abc123.";
+    private static boolean driversCargados = false;
     
 //    public Connection ConexionDerby(){
 //        
@@ -25,8 +26,11 @@ public class ConexionDerby {
     public static Connection getConexion(){
         Connection con =null;
         try{
+            if (!driversCargados) {
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+            driversCargados = true;
+            }
             con = DriverManager.getConnection(URL, USER, PASS);
 
         } catch (Exception ex) {
