@@ -32,16 +32,56 @@ public class UsuarioServicio {
         Usuario nuevo = null;
         try {
             Integer intEdad = Integer.parseInt(edad);
-            if (intEdad > 17 && nombre.length() > 1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")) {
+            if (intEdad>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
                 UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
-                nuevo = new Usuario(email, contrasena, nombre, intEdad);
-                dao.crear(nuevo);
+                if (dao.obtenerPorEmail(email)==null) {
+                    nuevo = new Usuario(email, contrasena, nombre, intEdad);
+                    return dao.crear(nuevo);
+                }
                 nuevo = dao.obtenerPorEmail(email);
+				return nuevo;
             }
         } catch (Exception ex) {
-
         }
-        return nuevo;
+        return null;
+    }
+
+    public static Usuario leer(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Usuario leer(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Boolean eliminar(Integer id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Usuario modificar(Integer id, String string, String string0, String juan, Integer edad) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static Usuario modificar(Usuario usuarioMod) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static List<Usuario> leerTodos() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public static List<Usuario> leerTodos(String nombre) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+}
+<<<<<<< .mine
+
+=======
+
+>>>>>>> .theirs
+        }
+        return null;
     }
 
     public static Usuario leer(Integer id) {
