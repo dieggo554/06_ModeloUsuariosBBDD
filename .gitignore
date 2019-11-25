@@ -31,3 +31,11 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+#Documentacion de libreria DerbyDB
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/docs
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/javadoc
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/test
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/index.html
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/bin
+06_ModeloUsuariosBBDD/lib/db-derby-10.14.2.0-bin/demo
