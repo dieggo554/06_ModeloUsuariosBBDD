@@ -6,6 +6,7 @@
 package com.vn.DAO;
 
 import com.vn.POJOs.Usuario;
+import java.util.HashMap;
 
 
 /**
@@ -19,5 +20,7 @@ public interface IDaoUsuario extends IGenericDao<Usuario>{
     public Usuario modificar(int id, String email, String password, String nombre, int age)  throws Exception;
 
     public boolean eliminarPorEmail(String email) throws Exception;
+    
+    public HashMap<Integer, Usuario> obtenerTodos(String nombre) throws Exception;
     
 }
