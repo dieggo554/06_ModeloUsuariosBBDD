@@ -12,7 +12,7 @@ import java.util.HashMap;
  *
  * @author pc
  */
-public class Usuario implements IDaoUsuario{
+public class Usuario{
 
     int id, edad;
     String nombre, email, password;
@@ -77,49 +77,5 @@ public class Usuario implements IDaoUsuario{
         return "Usuario:" + "id=" + id + ", edad=" + edad + ", nombre=" + nombre + ", email=" + email + ", password=" + password;
     }
 
-    @Override
-    public Usuario obtenerPorEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Usuario modificarPorEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean eliminarPorEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Usuario crear(Usuario objetoNuevo) throws Exception {
-        //usamos la conexion para crear un nuevo usuario en la base de datos con un objeto
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public HashMap<Integer, Usuario> obtenerTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Usuario obtenerPorIndice(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Usuario modificar(int index, Usuario objConDatosNuevo) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean eliminar(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean eliminar(Usuario objEliminable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }
