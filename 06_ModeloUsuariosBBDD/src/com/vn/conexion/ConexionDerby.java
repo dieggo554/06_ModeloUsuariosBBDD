@@ -13,8 +13,11 @@ import java.sql.DriverManager;
  * @author Equipo 1
  */
 public class ConexionDerby {
-    //static final 
-    public Connection ConexionDerby(){
+//    public Connection ConexionDerby(){
+//        
+//    }
+    
+    public static Connection getConexion(){
         Connection con =null;
         try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");

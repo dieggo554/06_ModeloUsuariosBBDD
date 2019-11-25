@@ -5,6 +5,8 @@
  */
 package com.vn.servicio;
 
+import com.vn.POJOs.Usuario;
+
 /**
  *
  * @author pc
@@ -12,7 +14,10 @@ package com.vn.servicio;
 public class UsuarioServicio {
 
     public static void crear(int edad, String nombre, String email, String contrasena) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (edad>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
+            Usuario nuevo = new Usuario(edad, nombre, email, contrasena);
+            
+        }
     }
     
 }
