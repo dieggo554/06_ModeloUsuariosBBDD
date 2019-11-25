@@ -13,6 +13,11 @@ import java.sql.DriverManager;
  * @author Equipo 1
  */
 public class ConexionDerby {
+
+    private static final String URL = "jdbc:derby://localhost:1527/06_ModeloUsuariosBBDD";
+    private static final String USER = "root";
+    private static final String PASS = "abc123.";
+    
 //    public Connection ConexionDerby(){
 //        
 //    }
@@ -22,10 +27,10 @@ public class ConexionDerby {
         try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-            con = DriverManager.getConnection("jdbc:derby://localhost:1527/06_ModeloUsuariosBBDD", "root","abc123.");
+            con = DriverManager.getConnection(URL, USER, PASS);
 
         } catch (Exception ex) {
-            System.out.println("no se ha cargado DerbyDB");
+            System.out.println("No se ha cargado DerbyDB");
         }
         return con;
     }
