@@ -5,6 +5,7 @@
  */
 package com.vn.conexion;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 
 /** static final de los elementos necesarios para hacer la conexion (url, usuario, contraseña)
@@ -13,13 +14,16 @@ import java.sql.DriverManager;
  */
 public class ConexionDerby {
     //static final 
-    public ConexionDerby(){
+    public Connection ConexionDerby(){
+        Connection con =null;
         try{
             Class.forName("org.apache.derby.jdbc.ClientDriver");
             DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+            con = DriverManager.getConnection("jdbc:derby://localhost:1527/06_ModeloUsuariosBBDD", "root","abc123.");
 
         } catch (Exception ex) {
             System.out.println("no se ha cargado DerbyDB");
         }
+        return con;
     }
 }
