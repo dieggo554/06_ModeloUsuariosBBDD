@@ -147,7 +147,8 @@ public class TestUsuarioService {
         UsuarioServicio.eliminar(usuario.getId());
     }
 
-    /**
+    /** Crea 10 usuarios, luego pide todos los elementos, los recorre mostrandolos
+     * y los elimina
      *
      * @throws Exception
      */
@@ -165,7 +166,8 @@ public class TestUsuarioService {
         }
     }
     
-    /**
+    /** Crea 5 usuarios con el mismo nombre, luego crea 2 con nombres diferentes
+     * finalmente recorre y muestra todos los Usuarios y los elimina.
      *
      * @throws Exception
      */
