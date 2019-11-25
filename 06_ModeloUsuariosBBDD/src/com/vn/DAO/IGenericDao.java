@@ -20,9 +20,7 @@ public interface IGenericDao<T> {
     
     T obtenerPorIndice(int index) throws Exception;
     
-    T modificar(int index, T objConDatosNuevo) throws Exception;
+    T modificar(T objConDatosNuevo) throws Exception;
     
-    boolean eliminar(int index);
-    
-    boolean eliminar(T objEliminable);
+    boolean eliminar(int index) throws Exception;
 }

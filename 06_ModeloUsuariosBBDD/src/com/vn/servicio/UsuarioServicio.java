@@ -40,11 +40,12 @@ public class UsuarioServicio {
                     return dao.crear(nuevo);
                 }
                 nuevo = dao.obtenerPorEmail(email);
-				return nuevo;
+		return nuevo;
             }
-        } catch (Exception ex) {
+        
+        }catch(Exception ex){
         }
-        return null;
+        return nuevo;
     }
 
     public static Usuario leer(Integer id) {

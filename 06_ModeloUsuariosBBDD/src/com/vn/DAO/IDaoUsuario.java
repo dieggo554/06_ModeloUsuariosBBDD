@@ -16,8 +16,8 @@ public interface IDaoUsuario extends IGenericDao<Usuario>{
         
     public Usuario obtenerPorEmail(String email) throws Exception;
     
-    public Usuario modificarPorEmail(String email);
+    public Usuario modificar(int id, String email, String password, String nombre, int age)  throws Exception;
 
-    public boolean eliminarPorEmail(String email);
+    public boolean eliminarPorEmail(String email) throws Exception;
     
 }
