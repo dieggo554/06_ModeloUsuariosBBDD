@@ -68,7 +68,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public Usuario crear(Usuario objetoNuevo) throws Exception {
-        String sqlQuery = "INSERT INTO Usuario VALUES EMAIL, PASSWORD, NOMBRE, AGE (?,?,?,?)";
+        String sqlQuery = "INSERT INTO Usuario(EMAIL, PASSWORD, NOMBRE, AGE) VALUES (?,?,?,?)";
         PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
         sentenciaSQL.setString(1, objetoNuevo.getEmail());
         sentenciaSQL.setString(2, objetoNuevo.getPassword());
