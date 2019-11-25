@@ -8,6 +8,7 @@ package com.vn.servicio;
 import com.vn.DAO.UsuarioDAO;
 import com.vn.POJOs.Usuario;
 import com.vn.conexion.ConexionDerby;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -66,50 +67,11 @@ public class UsuarioServicio {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public static List<Usuario> leerTodos() {
+    public static HashMap<Integer, Usuario> leerTodos() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public static List<Usuario> leerTodos(String nombre) {
+    public static HashMap<Integer, Usuario> leerTodos(String nombre) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-}
-<<<<<<< .mine
-
-=======
-
->>>>>>> .theirs
-        }
-        return null;
-    }
-
-    public static Usuario leer(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static Usuario leer(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static Boolean eliminar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static Usuario modificar(Integer id, String string, String string0, String juan, Integer edad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static Usuario modificar(Usuario usuarioMod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static List<Usuario> leerTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public static List<Usuario> leerTodos(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }
