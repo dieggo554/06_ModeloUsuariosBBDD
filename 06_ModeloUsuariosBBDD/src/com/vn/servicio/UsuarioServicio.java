@@ -10,6 +10,7 @@ import com.vn.POJOs.Usuario;
 import com.vn.conexion.ConexionDerby;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -18,6 +19,14 @@ import java.util.regex.Pattern;
  */
 public class UsuarioServicio {
 
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validate(String emailStr) {
+            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+            return matcher.find();
+    }
+    
     Pattern patronNombre = Pattern.compile(
             "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
                     + "*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b"
@@ -41,7 +50,7 @@ public class UsuarioServicio {
                 }catch(Exception ex){
                     System.out.println("edad tiene que ser casteable a Integer");
                 }
-                if (parseable && Integer.parseInt(edad)>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
+                if (parseable && Integer.parseInt(edad)>12 && nombre.length()>1 && contrasena.length()>4 && email.length()>3 && validate(email)){
                     UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
                     if (dao.obtenerPorEmail(email)==null) {
                         nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
