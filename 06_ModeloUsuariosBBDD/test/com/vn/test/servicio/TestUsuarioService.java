@@ -117,6 +117,7 @@ public class TestUsuarioService {
     public void testEliminarPorId() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "eliminarId" + dominio, password);
         Integer id = usuario.getId();
+        assertNotNull(UsuarioServicio.leer("eliminarId" + dominio));
         Boolean eliminado = UsuarioServicio.eliminar(id);
         assertTrue(eliminado);
         assertNull(UsuarioServicio.leer(dominio));
@@ -152,6 +153,22 @@ public class TestUsuarioService {
         usuario = UsuarioServicio.modificar(usuarioMod);
         assertEquals("Juan", usuarioMod.getNombre());
         assertEquals("12345", usuarioMod.getPassword());
+        UsuarioServicio.eliminar(usuario.getId());
+    }
+    
+    /** Crea usuario y lo itenta modifica, luego comprueba que dos parámetros
+     * no se han modificado, finalmente elimina el usuario.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testModificarPorIdMal() throws Exception {
+        Integer id;
+        Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "modificarIdOriginal" + dominio, password);
+        id = usuario.getId();
+        Usuario usuarioMod = UsuarioServicio.modificar(id, "modificarIdModificado" + dominio, "12345", "Juan", edad);
+        assertEquals(nombre, usuarioMod.getNombre());
+        assertEquals(password, usuarioMod.getPassword());
         UsuarioServicio.eliminar(usuario.getId());
     }
 
