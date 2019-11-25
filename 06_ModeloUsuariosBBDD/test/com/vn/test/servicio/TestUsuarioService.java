@@ -188,11 +188,11 @@ public class TestUsuarioService {
         UsuarioServicio.crear("55", "Alfredo", "alfi@dredo.no", "qwerty");
         HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos(nombre);
         assertEquals(7, usuarios.size());
-        usuarios.entrySet().forEach((usuario) -> {
+        for (Map.Entry<Integer, Usuario> usuario : usuarios.entrySet()) {
             Integer id = usuario.getKey();
             Usuario obj = usuario.getValue();
             System.out.println(obj);
             UsuarioServicio.eliminar(id);
-        });
+        }
     }
 }
