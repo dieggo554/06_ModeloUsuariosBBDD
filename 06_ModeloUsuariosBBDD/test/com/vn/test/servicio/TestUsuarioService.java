@@ -54,8 +54,12 @@ public class TestUsuarioService {
      */
     @Test
     public void testCrearMal() throws Exception {
+        // Campo nulo
+        Usuario usuario = UsuarioServicio.crear(edad + "", "A", null, password);
+        assertNull(usuario);
+
         // Nombre corto
-        Usuario usuario = UsuarioServicio.crear(edad + "", "A", "crearMal" + dominio, password);
+        usuario = UsuarioServicio.crear(edad + "", "A", "crearMal" + dominio, password);
         assertNull(usuario);
         
         // Nombre minúscula
@@ -68,6 +72,10 @@ public class TestUsuarioService {
         
         // Nombre edad baja
         usuario = UsuarioServicio.crear("12", nombre, "crearMal" + dominio, password);
+        assertNull(usuario);
+        
+        // Nombre NaN
+        usuario = UsuarioServicio.crear("LS", nombre, "crearMal" + dominio, password);
         assertNull(usuario);
         
         // Pass corta 
