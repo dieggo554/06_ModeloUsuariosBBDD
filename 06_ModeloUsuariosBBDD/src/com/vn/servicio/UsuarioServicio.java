@@ -16,18 +16,20 @@ import com.vn.conexion.ConexionDerby;
 public class UsuarioServicio {
 
    
-    public static void crear(String edad, String nombre, String email, String contrasena) throws Exception {
+    public static Usuario crear(String edad, String nombre, String email, String contrasena) throws Exception {
         try{
             Integer intEdad = Integer.parseInt(edad);
+            
             if (intEdad>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
                 UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
-                Usuario nuevo = new Usuario(email, contrasena, nombre, intEdad);
-                dao.crear(nuevo);
+                if (dao.obtenerPorEmail(email)==null) {
+                    Usuario nuevo = new Usuario(email, contrasena, nombre, intEdad);
+                    return dao.crear(nuevo);
+                }
             }
         }catch(Exception ex){
-        
         }
-        
+        return null;
     }
     
 }
