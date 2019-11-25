@@ -51,7 +51,7 @@ public class UsuarioServicio {
                     System.out.println("edad tiene que ser casteable a Integer");
                 }
                 if (parseable && Integer.parseInt(edad)>12 && nombre.length()>1 && contrasena.length()>4 && email.length()>3 && validate(email)){
-                    UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+                    UsuarioDAO dao = new UsuarioDAO();
                     if (dao.obtenerPorEmail(email)==null) {
                         nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
                         return dao.crear(nuevo);
@@ -67,40 +67,40 @@ public class UsuarioServicio {
     }
 
     public static Usuario leer(Integer id) throws Exception {
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         Usuario buscado = dao.obtenerPorIndice(id);
         return buscado;
         
     }
 
     public static Usuario leer(String email) throws Exception {
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         Usuario buscado = dao.obtenerPorEmail(email);
         return buscado;
     }
 
     public static Boolean eliminar(Integer id) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         return dao.eliminar(id);
     }
 
     public static Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         return dao.modificar(id, email, password, nombre, edad);
     }
 
     public static Usuario modificar(Usuario usuarioMod) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         return dao.modificar(usuarioMod);
     }
 
     public static HashMap<Integer, Usuario> leerTodos() throws Exception{
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         return dao.obtenerTodos();
     }
 
     public static HashMap<Integer, Usuario> leerTodos(String nombre) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        UsuarioDAO dao = new UsuarioDAO();
         return dao.obtenerTodos(nombre);
     }
 }
