@@ -48,31 +48,41 @@ public class UsuarioServicio {
         return nuevo;
     }
 
-    public static Usuario leer(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Usuario leer(Integer id) throws Exception {
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        Usuario buscado = dao.obtenerPorIndice(id);
+        return buscado;
+        
     }
 
-    public static Usuario leer(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Usuario leer(String email) throws Exception {
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        Usuario buscado = dao.obtenerPorEmail(email);
+        return buscado;
     }
 
-    public static Boolean eliminar(Integer id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Boolean eliminar(Integer id) throws Exception{
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        return dao.eliminar(id);
     }
 
-    public static Usuario modificar(Integer id, String string, String string0, String juan, Integer edad) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception{
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        return dao.modificar(id, email, password, nombre, edad);
     }
 
-    public static Usuario modificar(Usuario usuarioMod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static Usuario modificar(Usuario usuarioMod) throws Exception{
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        return dao.modificar(usuarioMod);
     }
 
-    public static HashMap<Integer, Usuario> leerTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static HashMap<Integer, Usuario> leerTodos() throws Exception{
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        return dao.obtenerTodos();
     }
 
-    public static HashMap<Integer, Usuario> leerTodos(String nombre) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static HashMap<Integer, Usuario> leerTodos(String nombre) throws Exception{
+        UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+        return dao.obtenerTodos(nombre);
     }
 }

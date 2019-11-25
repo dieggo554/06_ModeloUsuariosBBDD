@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-/**
+/** Modificado principalmente por Alberto
  *
  * @author Equipo 1
  */
@@ -152,6 +152,25 @@ public class UsuarioDAO implements IDaoUsuario{
         }
         con.close();
         return eliminado;
+    }
+
+    @Override
+    public HashMap<Integer, Usuario> obtenerTodos(String nombre) throws Exception {
+        HashMap hashUsuarios = new HashMap();
+        String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE NOMBRE=?";
+        PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+        sentenciaSQL.setString(1, nombre);
+        ResultSet resultado = sentenciaSQL.executeQuery();
+        while(resultado.next()){
+            Integer id = resultado.getInt(1);
+            String email = resultado.getString(2);
+            String password = resultado.getString(3);
+            Integer edad = resultado.getInt(5);
+            Usuario nuevo = new Usuario(id, email, password, nombre, edad);
+            hashUsuarios.put(id, nuevo);
+        }
+        con.close();
+        return hashUsuarios;
     }
 
 }
