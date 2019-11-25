@@ -1,3 +1,5 @@
+package com.vn.test.servicio;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,6 +7,7 @@
  */
 
 import com.vn.POJOs.Usuario;
+import com.vn.servicio.UsuarioServicio;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -12,11 +15,11 @@ import static org.junit.Assert.*;
  *
  * @author pc
  */
-public class TestCRUDUsuario {
+public class TestUsuarioService {
     
      @Test
      public void testCrearUsuario(Usuario nuevoUsuario) {
-         Usuario usuario = new Usuario(50, "Eustaquio Habichuela", "correo@corre.com", "abc123.");
+         UsuarioServicio.crear("Eustaquio Habichuela", "correo@corre.com", "abc123.");
          
      }
      
