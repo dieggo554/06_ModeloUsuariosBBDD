@@ -55,7 +55,7 @@ public class UsuarioDAO implements IDaoUsuario{
         sentenciaSQL.setString(4, edad);
         String strId = ((Integer)id).toString();
         sentenciaSQL.setString(5, strId);
-        sentenciaSQL.executeQuery();
+        sentenciaSQL.executeUpdate();
         Usuario objConDatosNuevo=obtenerPorIndice(id);
         con.close();
         return objConDatosNuevo;
@@ -75,7 +75,7 @@ public class UsuarioDAO implements IDaoUsuario{
         sentenciaSQL.setString(3, objetoNuevo.getNombre());
         String edad = ((Integer)objetoNuevo.getEdad()).toString();
         sentenciaSQL.setString(4, edad);
-        sentenciaSQL.executeQuery();
+        sentenciaSQL.executeUpdate();
         objetoNuevo.setId(obtenerPorEmail(objetoNuevo.getEmail()).getId());
         con.close();
         return objetoNuevo;
@@ -132,7 +132,7 @@ public class UsuarioDAO implements IDaoUsuario{
         sentenciaSQL.setString(4, edad);
         String id = ((Integer)objConDatosNuevo.getId()).toString();
         sentenciaSQL.setString(5, id);
-        sentenciaSQL.executeQuery();
+        sentenciaSQL.executeUpdate();
         objConDatosNuevo=obtenerPorIndice(objConDatosNuevo.getId());
         con.close();
         return objConDatosNuevo;
@@ -146,7 +146,7 @@ public class UsuarioDAO implements IDaoUsuario{
             String sqlQuery = "DELETE FROM Usuario WHERE ID=?";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
             sentenciaSQL.setString(1, id);
-            sentenciaSQL.executeQuery();
+            sentenciaSQL.executeUpdate();
             eliminado = true;
         }catch(Exception ex){
         }
