@@ -24,32 +24,32 @@ public class TestUsuarioService {
     public TestUsuarioService() {
         edad = 50;
         nombre = "Eustaquio Habichuela";
-        email = "correo@corre.com";
+        email = "@corre.com";
         password = "abc123.";
     }
 
     @Test
     public void testCrear() {
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "crear" + email, password);
         assertEquals(new Usuario(email, password, nombre, edad), usuario);
     }
     
     @Test
     public void testLeerUsuarioPorId() {
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "leerId" + email, password);
         Integer id = usuario.getId();
         assertEquals(usuario, UsuarioServicio.leer(id));
     }
     
     @Test
     public void testLeerUsuarioPorEmail() {
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "leerEmail" + email, password);
         assertEquals(usuario, UsuarioServicio.leer(email));
     }
     
     @Test
     public void testEliminarPorId() {
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "eliminarId" + email, password);
         Integer id = usuario.getId();
         Boolean eliminado = UsuarioServicio.eliminar(id);
         assertTrue(eliminado);
@@ -59,9 +59,9 @@ public class TestUsuarioService {
     @Test
     public void testModificarPorId() {
         Integer id;
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "modificarId" + email, password);
         id = usuario.getId();
-        Usuario usuarioMod = UsuarioServicio.modificar(id, email, "12345", "Juan", edad);
+        Usuario usuarioMod = UsuarioServicio.modificar(id, "modificarId" + email, "12345", "Juan", edad);
         assertEquals("Juan", usuarioMod.getNombre());
         assertEquals("12345", usuarioMod.getPassword());
     }
@@ -69,9 +69,9 @@ public class TestUsuarioService {
     @Test
     public void testModificarObjecto() {
         Integer id;
-        Usuario usuario = UsuarioServicio.crear(edad, nombre, email, password);
+        Usuario usuario = UsuarioServicio.crear(edad, nombre, "modificarObj" + email, password);
         id = usuario.getId();
-        Usuario usuarioMod = new Usuario(id, email, "12345", "Juan", edad);
+        Usuario usuarioMod = new Usuario(id, "modificarObj" + email, "12345", "Juan", edad);
         usuario = UsuarioServicio.modificar(usuarioMod);
         assertEquals(usuarioMod, usuario);
     }
