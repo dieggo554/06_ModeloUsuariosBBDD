@@ -6,6 +6,7 @@
 package com.vn.DAO;
 
 import com.vn.POJOs.Usuario;
+import com.vn.conexion.ConexionDerby;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,15 +18,10 @@ import java.util.HashMap;
  */
 public class UsuarioDAO implements IDaoUsuario{
 
-    Connection con;
-    
-    public UsuarioDAO(Connection con) {
-        this.con = con;
-    }
-
     
     @Override
     public Usuario obtenerPorEmail(String email) throws Exception{
+        Connection con = ConexionDerby.getConexion();
         Usuario nuevo = null;
         String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE EMAIL=?";
         PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
@@ -44,6 +40,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public Usuario modificar(int id, String email, String password, String nombre, int age) throws Exception {
+        Connection con = ConexionDerby.getConexion();
         String sqlQuery = "UPDATE Usuario " +
                            "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
                             "WHERE ID = ?";
@@ -68,6 +65,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public Usuario crear(Usuario objetoNuevo) throws Exception {
+        Connection con = ConexionDerby.getConexion();
         String sqlQuery = "INSERT INTO Usuario(EMAIL, PASSWORD, NOMBRE, AGE) VALUES (?,?,?,?)";
         PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
         sentenciaSQL.setString(1, objetoNuevo.getEmail());
@@ -83,6 +81,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public HashMap<Integer, Usuario> obtenerTodos() throws Exception {
+        Connection con = ConexionDerby.getConexion();
         HashMap hashUsuarios = new HashMap();
         String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM USUARIO";
         PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
@@ -102,6 +101,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public Usuario obtenerPorIndice(int index) throws Exception{
+        Connection con = ConexionDerby.getConexion();
         Usuario nuevo = null;
         String id = ((Integer)index).toString();
         String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE ID=?";
@@ -121,6 +121,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public Usuario modificar(Usuario objConDatosNuevo) throws Exception {
+        Connection con = ConexionDerby.getConexion();
         String sqlQuery = "UPDATE Usuario " +
                            "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
                             "WHERE ID = ?";
@@ -140,6 +141,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public boolean eliminar(int index) throws Exception{
+        Connection con = ConexionDerby.getConexion();
         boolean eliminado = false;
         try{
             String id = ((Integer)index).toString();
@@ -156,6 +158,7 @@ public class UsuarioDAO implements IDaoUsuario{
 
     @Override
     public HashMap<Integer, Usuario> obtenerTodos(String nombre) throws Exception {
+        Connection con = ConexionDerby.getConexion();
         HashMap hashUsuarios = new HashMap();
         
         if (nombre!="") {
