@@ -167,10 +167,11 @@ public class TestUsuarioService {
         }
         HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos();
         for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet()) {
-            Integer key = entry.getKey();
             Usuario value = entry.getValue();
             System.out.println(value);
-            UsuarioServicio.eliminar(key);
+        }
+        for (int i = 1; i <= 10; i++) {
+            UsuarioServicio.eliminar(UsuarioServicio.leer(i + "º - " + dominio).getId());
         }
     }
     
@@ -188,11 +189,14 @@ public class TestUsuarioService {
         UsuarioServicio.crear("55", "Alfredo", "alfi@dredo.no", "qwerty");
         HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos(nombre);
         assertEquals(7, usuarios.size());
-        usuarios.entrySet().forEach((usuario) -> {
-            Integer id = usuario.getKey();
+        for (Map.Entry<Integer, Usuario> usuario : usuarios.entrySet()) {
             Usuario obj = usuario.getValue();
             System.out.println(obj);
-            UsuarioServicio.eliminar(id);
-        });
+        }
+        UsuarioServicio.eliminar(UsuarioServicio.leer("emilio@aqui.si").getId());
+        UsuarioServicio.eliminar(UsuarioServicio.leer("alfi@dredo.no").getId());
+        for (int i = 1; i <= 10; i++) {
+            UsuarioServicio.eliminar(UsuarioServicio.leer(i + "º - " + dominio).getId());
+        }
     }
 }
