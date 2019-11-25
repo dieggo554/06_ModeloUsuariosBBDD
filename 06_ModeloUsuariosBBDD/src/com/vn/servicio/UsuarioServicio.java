@@ -23,15 +23,16 @@ public class UsuarioServicio {
             if (intEdad>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
                 UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
                 if (dao.obtenerPorEmail(email)==null) {
-                    Usuario nuevo = new Usuario(email, contrasena, nombre, intEdad);
+                    nuevo = new Usuario(email, contrasena, nombre, intEdad);
                     return dao.crear(nuevo);
                 }
                 nuevo = dao.obtenerPorEmail(email);
-				return nuevo;
+		return nuevo;
             }
         
+        }catch(Exception ex){
         }
-        return null;
+        return nuevo;
     }
 
     public static Usuario leer(Integer id) {

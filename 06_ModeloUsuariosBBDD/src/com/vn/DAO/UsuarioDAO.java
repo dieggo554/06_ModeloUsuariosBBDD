@@ -38,17 +38,32 @@ public class UsuarioDAO implements IDaoUsuario{
             Integer age = resultado.getInt(5);
             nuevo = new Usuario(id, email, password, nombre, age);
         }
+        con.close();
         return nuevo;
     }
 
     @Override
-    public Usuario modificarPorEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario modificar(int id, String email, String password, String nombre, int age) throws Exception {
+        String sqlQuery = "UPDATE Usuario " +
+                           "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
+                            "WHERE ID = ?";
+        PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+        sentenciaSQL.setString(1, email);
+        sentenciaSQL.setString(2, password);
+        sentenciaSQL.setString(3, nombre);
+        String edad = ((Integer)age).toString();
+        sentenciaSQL.setString(4, edad);
+        String strId = ((Integer)id).toString();
+        sentenciaSQL.setString(5, strId);
+        sentenciaSQL.executeQuery();
+        Usuario objConDatosNuevo=obtenerPorIndice(id);
+        con.close();
+        return objConDatosNuevo;
     }
 
     @Override
-    public boolean eliminarPorEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean eliminarPorEmail(String email) throws Exception{
+        return eliminar(obtenerPorEmail(email).getId());
     }
 
     @Override
@@ -81,6 +96,7 @@ public class UsuarioDAO implements IDaoUsuario{
             Usuario nuevo = new Usuario(id, email, password, nombre, edad);
             hashUsuarios.put(id, nuevo);
         }
+        con.close();
         return hashUsuarios;
     }
 
@@ -99,22 +115,43 @@ public class UsuarioDAO implements IDaoUsuario{
             Integer age = resultado.getInt(5);
             nuevo = new Usuario(index, email, password, nombre, age);
         }
+        con.close();
         return nuevo;
     }
 
     @Override
-    public Usuario modificar(int index, Usuario objConDatosNuevo) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Usuario modificar(Usuario objConDatosNuevo) throws Exception {
+        String sqlQuery = "UPDATE Usuario " +
+                           "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
+                            "WHERE ID = ?";
+        PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+        sentenciaSQL.setString(1, objConDatosNuevo.getEmail());
+        sentenciaSQL.setString(2, objConDatosNuevo.getPassword());
+        sentenciaSQL.setString(3, objConDatosNuevo.getNombre());
+        String edad = ((Integer)objConDatosNuevo.getEdad()).toString();
+        sentenciaSQL.setString(4, edad);
+        String id = ((Integer)objConDatosNuevo.getId()).toString();
+        sentenciaSQL.setString(5, id);
+        sentenciaSQL.executeQuery();
+        objConDatosNuevo=obtenerPorIndice(objConDatosNuevo.getId());
+        con.close();
+        return objConDatosNuevo;
     }
 
     @Override
-    public boolean eliminar(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean eliminar(int index) throws Exception{
+        boolean eliminado = false;
+        try{
+            String id = ((Integer)index).toString();
+            String sqlQuery = "DELETE FROM Usuario WHERE ID=?";
+            PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+            sentenciaSQL.setString(1, id);
+            sentenciaSQL.executeQuery();
+            eliminado = true;
+        }catch(Exception ex){
+        }
+        con.close();
+        return eliminado;
     }
 
-    @Override
-    public boolean eliminar(Usuario objEliminable) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
