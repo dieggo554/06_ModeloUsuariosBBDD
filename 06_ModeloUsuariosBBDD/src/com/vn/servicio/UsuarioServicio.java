@@ -31,18 +31,27 @@ public class UsuarioServicio {
 
     public static Usuario crear(String edad, String nombre, String email, String contrasena) throws Exception {
         Usuario nuevo = null;
+        boolean parseable=false;
         try {
-            Integer intEdad = Integer.parseInt(edad);
-            if (intEdad>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
-                UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
-                if (dao.obtenerPorEmail(email)==null) {
-                    nuevo = new Usuario(email, contrasena, nombre, intEdad);
-                    return dao.crear(nuevo);
+            if (edad!=null && nombre!=null && email!=null && contrasena!=null) {
+                try{
+                    Integer intEdad = Integer.parseInt(edad);
+                    parseable=true;
+                    
+                }catch(Exception ex){
+                    System.out.println("edad tiene que ser casteable a Integer");
                 }
-                nuevo = dao.obtenerPorEmail(email);
-		return nuevo;
+                if (parseable && Integer.parseInt(edad)>17 && nombre.length()>1 && email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$") && contrasena.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")){
+                    UsuarioDAO dao = new UsuarioDAO(ConexionDerby.getConexion());
+                    if (dao.obtenerPorEmail(email)==null) {
+                        nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
+                        return dao.crear(nuevo);
+                    }
+                    nuevo = dao.obtenerPorEmail(email);
+                    return nuevo;
+                }
             }
-        
+
         }catch(Exception ex){
         }
         return nuevo;
