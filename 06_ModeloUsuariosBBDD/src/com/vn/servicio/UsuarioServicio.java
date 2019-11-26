@@ -55,12 +55,14 @@ public class UsuarioServicio {
                 }
                 if (parseable && Integer.parseInt(edad) > 12 && nombre.length() > 3 && contrasena.length() > 4 && email.length() > 3 && validate(email)) {
                     UsuarioDAO dao = new UsuarioDAO();
+                    Usuario usuario = null;
                     if (dao.obtenerPorEmail(email) == null) {
                         nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
-                        return dao.crear(nuevo);
+                        usuario = dao.crear(nuevo);
+                    } else {
+                        throw new Exception("El email ya existe:" + email);
                     }
-//                    nuevo = dao.obtenerPorEmail(email);
-                    return nuevo;
+                    return usuario;
                 }
             }
 
