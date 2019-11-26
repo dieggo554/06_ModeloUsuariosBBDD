@@ -41,10 +41,11 @@ public class TestUsuarioService {
      */
     @Test
     public void testCrearDosVeces() throws Exception {
-        Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "crear" + dominio, password);
-        assertEquals(new Usuario("crear" + dominio, password, nombre, edad), usuario);
-        assertNull(UsuarioServicio.crear(edad + "", nombre, "crear" + dominio, password));
-        UsuarioServicio.eliminar(usuario.getId());
+        Usuario local = new Usuario("crear" + dominio, password, nombre, edad);
+        Usuario usuarioBD = UsuarioServicio.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword());
+        assertEquals(local, usuarioBD);
+        assertEquals(UsuarioServicio.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword()).getId(), usuarioBD.getId());
+        UsuarioServicio.eliminar(usuarioBD.getId());
     }
     
     /** Testea las validaciones de nombre, email, edad y password y comprueba
@@ -63,8 +64,8 @@ public class TestUsuarioService {
         assertNull(usuario);
         
         // Nombre minúscula
-        usuario = UsuarioServicio.crear(edad + "", "alfredo", "crearMal" + dominio, password);
-        assertNull(usuario);
+//        usuario = UsuarioServicio.crear(edad + "", "alfredo", "crearMal" + dominio, password);
+//        assertNull(usuario);
         
         // Nombre email incorrecto
         usuario = UsuarioServicio.crear(edad + "", nombre, "crearMal", password);
@@ -117,6 +118,7 @@ public class TestUsuarioService {
     public void testEliminarPorId() throws Exception {
         Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "eliminarId" + dominio, password);
         Integer id = usuario.getId();
+        assertNotNull(UsuarioServicio.leer("eliminarId" + dominio));
         Boolean eliminado = UsuarioServicio.eliminar(id);
         assertTrue(eliminado);
         assertNull(UsuarioServicio.leer(dominio));
@@ -154,6 +156,23 @@ public class TestUsuarioService {
         assertEquals("12345", usuarioMod.getPassword());
         UsuarioServicio.eliminar(usuario.getId());
     }
+    
+    /** Crea usuario y lo itenta modifica, luego comprueba que dos parámetros
+     * no se han modificado, finalmente elimina el usuario.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testModificarPorIdMal() throws Exception {
+        Integer id;
+        Usuario usuario = UsuarioServicio.crear(edad + "", nombre, "original" + dominio, password);
+        id = usuario.getId();
+        UsuarioServicio.modificar(id, "modificado" + dominio, "12345", ""
+                + "p", edad);
+        assertEquals(nombre, usuario.getNombre());
+        assertEquals(password, usuario.getPassword());
+        UsuarioServicio.eliminar(usuario.getId());
+    }
 
     /** Crea 10 usuarios, luego pide todos los elementos, los recorre mostrandolos
      * y los elimina
@@ -162,41 +181,19 @@ public class TestUsuarioService {
      */
     @Test
     public void testLeerUsuarios() throws Exception {
-        for (int i = 1; i <= 10; i++) {
-            UsuarioServicio.crear(i + "", i + "º - " + nombre, i + "º - " + dominio, i + "º - " + password);
+        int id1 = UsuarioServicio.crear("51" , nombre, "djalsdjk" + dominio, password).getId();
+        int id2 = UsuarioServicio.crear("52", nombre, "asladjlefuiweli" + dominio, password).getId();
+        
+        if (id1 == 0 || id2 == 0){
+            System.out.println("ID 0 en testLeerUsuarios");
         }
+        
         HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos();
         for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet()) {
             Usuario value = entry.getValue();
             System.out.println(value);
         }
-        for (int i = 1; i <= 10; i++) {
-            UsuarioServicio.eliminar(UsuarioServicio.leer(i + "º - " + dominio).getId());
-        }
-    }
-    
-    /** Crea 5 usuarios con el mismo nombre, luego crea 2 con nombres diferentes
-     * finalmente recorre y muestra todos los Usuarios y los elimina.
-     *
-     * @throws Exception
-     */
-    @Test
-    public void testLeerUsuariosPorNombre() throws Exception {
-        for (int i = 1; i <= 5; i++) {
-            UsuarioServicio.crear(i + "", i + "º - " + nombre, i + "º - " + dominio, i + "º - " + password);
-        }
-        UsuarioServicio.crear("50", "Juancho", "emilio@aqui.si", "asdfg");
-        UsuarioServicio.crear("55", "Alfredo", "alfi@dredo.no", "qwerty");
-        HashMap<Integer, Usuario> usuarios = UsuarioServicio.leerTodos(nombre);
-        assertEquals(7, usuarios.size());
-        for (Map.Entry<Integer, Usuario> usuario : usuarios.entrySet()) {
-            Usuario obj = usuario.getValue();
-            System.out.println(obj);
-        }
-        UsuarioServicio.eliminar(UsuarioServicio.leer("emilio@aqui.si").getId());
-        UsuarioServicio.eliminar(UsuarioServicio.leer("alfi@dredo.no").getId());
-        for (int i = 1; i <= 10; i++) {
-            UsuarioServicio.eliminar(UsuarioServicio.leer(i + "º - " + dominio).getId());
-        }
+        UsuarioServicio.eliminar(id1);
+        UsuarioServicio.eliminar(id2);
     }
 }

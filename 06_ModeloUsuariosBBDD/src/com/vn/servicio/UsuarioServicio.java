@@ -50,7 +50,7 @@ public class UsuarioServicio {
                 }catch(Exception ex){
                     System.out.println("edad tiene que ser casteable a Integer");
                 }
-                if (parseable && Integer.parseInt(edad)>12 && nombre.length()>1 && contrasena.length()>4 && email.length()>3 && validate(email)){
+                if (parseable && Integer.parseInt(edad)>12 && nombre.length()>3 && contrasena.length()>4 && email.length()>3 && validate(email)){
                     UsuarioDAO dao = new UsuarioDAO();
                     if (dao.obtenerPorEmail(email)==null) {
                         nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
@@ -85,13 +85,30 @@ public class UsuarioServicio {
     }
 
     public static Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO();
-        return dao.modificar(id, email, password, nombre, edad);
+        
+        try {
+            if (edad!=null && nombre!=null && email!=null && password!=null) {
+                if (edad>12 && nombre.length()>1 && password.length()>4 && email.length()>3 && validate(email)){
+                    UsuarioDAO dao = new UsuarioDAO();
+                    return dao.modificar(id, email, password, nombre, edad);
+                }
+            }
+        }catch(Exception ex){
+                    
+        }
+        return null;
     }
 
     public static Usuario modificar(Usuario usuarioMod) throws Exception{
-        UsuarioDAO dao = new UsuarioDAO();
-        return dao.modificar(usuarioMod);
+        try {
+        
+            if (usuarioMod.getEdad()>12 && usuarioMod.getNombre().length()>1 && usuarioMod.getPassword().length()>4 && usuarioMod.getEmail().length()>3 && validate(usuarioMod.getEmail())){
+                UsuarioDAO dao = new UsuarioDAO();
+                return dao.modificar(usuarioMod);
+            }
+        }catch(Exception ex){
+        }
+        return null;
     }
 
     public static HashMap<Integer, Usuario> leerTodos() throws Exception{
