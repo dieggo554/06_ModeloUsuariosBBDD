@@ -10,6 +10,8 @@ import com.vn.POJOs.Usuario;
 import com.vn.conexion.ConexionDerby;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,7 +41,7 @@ public class UsuarioServicio {
         return matcher.find();
     }
 
-    public Usuario crear(String edad, String nombre, String email, String contrasena) throws Exception {
+    public Usuario crear(String edad, String nombre, String email, String contrasena) {
         Usuario nuevo = null;
         boolean parseable = false;
         try {
@@ -68,25 +70,44 @@ public class UsuarioServicio {
         return nuevo;
     }
 
-    public Usuario leer(Integer id) throws Exception {
+    public Usuario leer(Integer id) {
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario buscado = dao.obtenerPorIndice(id);
+        Usuario buscado = null;
+        try {
+            buscado = dao.obtenerPorIndice(id);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            notificarError("Error en UsuariosServlets.leer(id): " + ex.getMessage());
+        }
         return buscado;
 
     }
 
-    public Usuario leer(String email) throws Exception {
+    public Usuario leer(String email) {
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario buscado = dao.obtenerPorEmail(email);
+        Usuario buscado = null;
+        try {
+            buscado = dao.obtenerPorEmail(email);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            notificarError("Error en UsuariosServlets.leer(email): " + ex.getMessage());
+        }
         return buscado;
     }
 
-    public Boolean eliminar(Integer id) throws Exception {
+    public Boolean eliminar(Integer id) {
         UsuarioDAO dao = new UsuarioDAO();
-        return dao.eliminar(id);
+        boolean eliminado = false;
+        try {
+            eliminado = dao.eliminar(id);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            notificarError("Error en UsuariosServlets.eliminar(id): " + ex.getMessage());
+        }
+        return eliminado;
     }
 
-    public Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception {
+    public Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) {
 
         try {
             if (edad != null && nombre != null && email != null && password != null) {
@@ -96,12 +117,12 @@ public class UsuarioServicio {
                 }
             }
         } catch (Exception ex) {
-
+            notificarError("Error en UsuariosServlets.crear(...): " + ex.getMessage());
         }
         return null;
     }
 
-    public Usuario modificar(Usuario usuarioMod) throws Exception {
+    public Usuario modificar(Usuario usuarioMod) {
         try {
 
             if (usuarioMod.getEdad() > 12 && usuarioMod.getNombre().length() > 1 && usuarioMod.getPassword().length() > 4 && usuarioMod.getEmail().length() > 3 && validate(usuarioMod.getEmail())) {
@@ -109,17 +130,20 @@ public class UsuarioServicio {
                 return dao.modificar(usuarioMod);
             }
         } catch (Exception ex) {
+            notificarError("Error en UsuariosServlets.crear(Usuario): " + ex.getMessage());
         }
         return null;
     }
 
-    public HashMap<Integer, Usuario> leerTodos() throws Exception {
+    public HashMap<Integer, Usuario> leerTodos() {
         UsuarioDAO dao = new UsuarioDAO();
-        return dao.obtenerTodos();
-    }
-
-    public HashMap<Integer, Usuario> leerTodos(String nombre) throws Exception {
-        UsuarioDAO dao = new UsuarioDAO();
-        return dao.obtenerTodos(nombre);
+        HashMap<Integer, Usuario> todos = null;
+        try {
+            todos = dao.obtenerTodos();
+        } catch (Exception ex) {
+            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            notificarError("Error en UsuariosServlets.leerTodos(): " + ex.getMessage());
+        }
+        return todos;
     }
 }
