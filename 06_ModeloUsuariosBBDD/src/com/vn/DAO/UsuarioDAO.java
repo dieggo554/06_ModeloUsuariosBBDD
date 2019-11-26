@@ -22,18 +22,6 @@ import java.util.logging.Logger;
  */
 public class UsuarioDAO implements IDaoUsuario {
 
-
-<<<<<<< .mine
-    public UsuarioDAO(Connection con) {
-        this.con = con;
-    }
-
-=======
-
-
-
-
->>>>>>> .theirs
     @Override
     public Usuario obtenerPorEmail(String email) throws Exception {
         Connection con = ConexionDerby.getConexion();
