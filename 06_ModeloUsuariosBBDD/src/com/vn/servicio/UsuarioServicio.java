@@ -62,7 +62,6 @@ public class UsuarioServicio {
                     } else {
                         throw new Exception("El email ya existe:" + email);
                     }
-                    return usuario;
                 }
             }
 

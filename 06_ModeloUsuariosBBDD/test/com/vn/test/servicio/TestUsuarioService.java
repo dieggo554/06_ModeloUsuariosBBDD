@@ -45,7 +45,7 @@ public class TestUsuarioService {
         Usuario local = new Usuario("crear" + dominio, password, nombre, edad);
         Usuario usuarioBD = srv.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword());
         assertEquals(local, usuarioBD);
-        assertEquals(srv.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword()).getId(), usuarioBD.getId());
+        assertNull(srv.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword()));
         srv.eliminar(usuarioBD.getId());
     }
     
@@ -190,19 +190,20 @@ public class TestUsuarioService {
     @Test
     public void testLeerUsuarios() throws Exception {
         UsuarioServicio srv = new UsuarioServicio();
-        int id1 = srv.crear("51" , nombre, "djalsdjk" + dominio, password).getId();
-        int id2 = srv.crear("52", nombre, "asladjlefuiweli" + dominio, password).getId();
-        
-        if (id1 == 0 || id2 == 0){
-            System.out.println("ID 0 en testLeerUsuarios");
-        }
+        Usuario us1 = srv.crear("51" , nombre, "djalsdjk" + dominio, password);
+        Usuario us2 = srv.crear("52", nombre, "asladjlefuiweli" + dominio, password);
         
         HashMap<Integer, Usuario> usuarios = srv.leerTodos();
-        for (Map.Entry<Integer, Usuario> entry : usuarios.entrySet()) {
-            Usuario value = entry.getValue();
-            System.out.println(value);
+        
+        if (usuarios.containsValue(us1)) {
+            srv.eliminar(us1.getId());
+        } else {
+            fail("No se ha encontrado el usuario");
         }
-        srv.eliminar(id1);
-        srv.eliminar(id2);
+        if (usuarios.containsValue(us2)) {
+            srv.eliminar(us2.getId());
+        } else {
+            fail("No se ha encontrado el usuario");
+        }
     }
 }
