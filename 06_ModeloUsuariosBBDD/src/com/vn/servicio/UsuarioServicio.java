@@ -19,29 +19,41 @@ import java.util.regex.Pattern;
  */
 public class UsuarioServicio {
 
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
-    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-
-    public static boolean validate(String emailStr) {
-            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
-            return matcher.find();
+    private void notificarError(String message) {
+        if (err != null) {
+            err.mostrarError(message);
+        }
     }
 
-    public static Usuario crear(String edad, String nombre, String email, String contrasena) throws Exception {
+    private ChivatoServicios err;
+
+    public void setChivatoListener(ChivatoServicios err) {
+        this.err = err;
+    }
+
+    public final Pattern VALID_EMAIL_ADDRESS_REGEX
+            = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public boolean validate(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
+
+    public Usuario crear(String edad, String nombre, String email, String contrasena) throws Exception {
         Usuario nuevo = null;
-        boolean parseable=false;
+        boolean parseable = false;
         try {
-            if (edad!=null && nombre!=null && email!=null && contrasena!=null) {
-                try{
+            if (edad != null && nombre != null && email != null && contrasena != null) {
+                try {
                     Integer intEdad = Integer.parseInt(edad);
-                    parseable=true;
-                    
-                }catch(Exception ex){
+                    parseable = true;
+
+                } catch (Exception ex) {
                     System.out.println("edad tiene que ser casteable a Integer");
                 }
-                if (parseable && Integer.parseInt(edad)>12 && nombre.length()>3 && contrasena.length()>4 && email.length()>3 && validate(email)){
+                if (parseable && Integer.parseInt(edad) > 12 && nombre.length() > 3 && contrasena.length() > 4 && email.length() > 3 && validate(email)) {
                     UsuarioDAO dao = new UsuarioDAO();
-                    if (dao.obtenerPorEmail(email)==null) {
+                    if (dao.obtenerPorEmail(email) == null) {
                         nuevo = new Usuario(email, contrasena, nombre, Integer.parseInt(edad));
                         return dao.crear(nuevo);
                     }
@@ -50,62 +62,63 @@ public class UsuarioServicio {
                 }
             }
 
-        }catch(Exception ex){
+        } catch (Exception ex) {
+            notificarError("Error en UsuariosServlets.crear(...): " + ex.getMessage());
         }
         return nuevo;
     }
 
-    public static Usuario leer(Integer id) throws Exception {
+    public Usuario leer(Integer id) throws Exception {
         UsuarioDAO dao = new UsuarioDAO();
         Usuario buscado = dao.obtenerPorIndice(id);
         return buscado;
-        
+
     }
 
-    public static Usuario leer(String email) throws Exception {
+    public Usuario leer(String email) throws Exception {
         UsuarioDAO dao = new UsuarioDAO();
         Usuario buscado = dao.obtenerPorEmail(email);
         return buscado;
     }
 
-    public static Boolean eliminar(Integer id) throws Exception{
+    public Boolean eliminar(Integer id) throws Exception {
         UsuarioDAO dao = new UsuarioDAO();
         return dao.eliminar(id);
     }
 
-    public static Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception{
-        
+    public Usuario modificar(Integer id, String email, String password, String nombre, Integer edad) throws Exception {
+
         try {
-            if (edad!=null && nombre!=null && email!=null && password!=null) {
-                if (edad>12 && nombre.length()>1 && password.length()>4 && email.length()>3 && validate(email)){
+            if (edad != null && nombre != null && email != null && password != null) {
+                if (edad > 12 && nombre.length() > 1 && password.length() > 4 && email.length() > 3 && validate(email)) {
                     UsuarioDAO dao = new UsuarioDAO();
                     return dao.modificar(id, email, password, nombre, edad);
                 }
             }
-        }catch(Exception ex){
-                    
+        } catch (Exception ex) {
+
         }
         return null;
     }
 
-    public static Usuario modificar(Usuario usuarioMod) throws Exception{
+    public Usuario modificar(Usuario usuarioMod) throws Exception {
         try {
-        
-            if (usuarioMod.getEdad()>12 && usuarioMod.getNombre().length()>1 && usuarioMod.getPassword().length()>4 && usuarioMod.getEmail().length()>3 && validate(usuarioMod.getEmail())){
+
+            if (usuarioMod.getEdad() > 12 && usuarioMod.getNombre().length() > 1 && usuarioMod.getPassword().length() > 4 && usuarioMod.getEmail().length() > 3 && validate(usuarioMod.getEmail())) {
                 UsuarioDAO dao = new UsuarioDAO();
                 return dao.modificar(usuarioMod);
             }
-        }catch(Exception ex){
+        } catch (Exception ex) {
         }
         return null;
     }
 
-    public static HashMap<Integer, Usuario> leerTodos() throws Exception{
+    public HashMap<Integer, Usuario> leerTodos() throws Exception {
         UsuarioDAO dao = new UsuarioDAO();
         return dao.obtenerTodos();
     }
 
-    public static HashMap<Integer, Usuario> leerTodos(String nombre) throws Exception{
+    public HashMap<Integer, Usuario> leerTodos(String nombre) throws Exception {
         UsuarioDAO dao = new UsuarioDAO();
         return dao.obtenerTodos(nombre);
     }
