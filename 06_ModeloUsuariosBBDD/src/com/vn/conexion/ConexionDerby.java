@@ -7,6 +7,7 @@ package com.vn.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /** static final de los elementos necesarios para hacer la conexion (url, usuario, contraseña)
  *
@@ -23,19 +24,17 @@ public class ConexionDerby {
 //        
 //    }
     
-    public static Connection getConexion(){
+    public static Connection getConexion() throws ClassNotFoundException, SQLException{
         Connection con =null;
-        try{
-            if (!driversCargados) {
-            Class.forName("org.apache.derby.jdbc.ClientDriver");
-            DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-            driversCargados = true;
-            }
-            con = DriverManager.getConnection(URL, USER, PASS);
 
-        } catch (Exception ex) {
-            System.out.println("No se ha cargado DerbyDB");
+        if (!driversCargados) {
+        Class.forName("org.apache.derby.jdbc.ClientDriver");
+        DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
+        driversCargados = true;
         }
+        con = DriverManager.getConnection(URL, USER, PASS);
+
+        
         return con;
     }
 }
