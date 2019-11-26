@@ -24,8 +24,7 @@ public class UsuarioDAO implements IDaoUsuario {
 
     @Override
     public Usuario obtenerPorEmail(String email) throws Exception {
-        try{
-            Connection con = ConexionDerby.getConexion();
+        try (Connection con = ConexionDerby.getConexion()) {
             Usuario nuevo = null;
             String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE EMAIL=?";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
@@ -38,38 +37,29 @@ public class UsuarioDAO implements IDaoUsuario {
                 Integer age = resultado.getInt(5);
                 nuevo = new Usuario(id, email, password, nombre, age);
             }
-            con.close();
             return nuevo;
-        }catch(Exception ex){
-        
         }
-        
-        return null;
+
     }
 
     @Override
     public Usuario modificar(int id, String email, String password, String nombre, int age) throws Exception {
-        try{
-            Connection con = ConexionDerby.getConexion();
-            String sqlQuery = "UPDATE Usuario " +
-                               "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
-                                "WHERE ID = ?";
+        try (Connection con = ConexionDerby.getConexion()) {
+            String sqlQuery = "UPDATE Usuario "
+                    + "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? "
+                    + "WHERE ID = ?";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
             sentenciaSQL.setString(1, email);
             sentenciaSQL.setString(2, password);
             sentenciaSQL.setString(3, nombre);
-            String edad = ((Integer)age).toString();
+            String edad = ((Integer) age).toString();
             sentenciaSQL.setString(4, edad);
-            String strId = ((Integer)id).toString();
+            String strId = ((Integer) id).toString();
             sentenciaSQL.setString(5, strId);
             sentenciaSQL.executeUpdate();
-            Usuario objConDatosNuevo=obtenerPorIndice(id);
-            con.close();
+            Usuario objConDatosNuevo = obtenerPorIndice(id);
             return objConDatosNuevo;
-        }catch(Exception ex){
-        
         }
-        return null;
     }
 
     @Override
@@ -79,35 +69,28 @@ public class UsuarioDAO implements IDaoUsuario {
 
     @Override
     public Usuario crear(Usuario objetoNuevo) throws Exception {
-        try{
-            Connection con = ConexionDerby.getConexion();
+        try (Connection con = ConexionDerby.getConexion()) {
             String sqlQuery = "INSERT INTO Usuario(EMAIL, PASSWORD, NOMBRE, AGE) VALUES (?,?,?,?)";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
             sentenciaSQL.setString(1, objetoNuevo.getEmail());
             sentenciaSQL.setString(2, objetoNuevo.getPassword());
             sentenciaSQL.setString(3, objetoNuevo.getNombre());
-            String edad = ((Integer)objetoNuevo.getEdad()).toString();
+            String edad = ((Integer) objetoNuevo.getEdad()).toString();
             sentenciaSQL.setString(4, edad);
             sentenciaSQL.executeUpdate();
             objetoNuevo.setId(obtenerPorEmail(objetoNuevo.getEmail()).getId());
-            con.close();
             return objetoNuevo;
-        }catch(Exception ex){
-        
         }
-        return null;
     }
 
     @Override
     public HashMap<Integer, Usuario> obtenerTodos() throws Exception {
-        try
-        {
-            Connection con = ConexionDerby.getConexion();
+        try (Connection con = ConexionDerby.getConexion()) {
             HashMap hashUsuarios = new HashMap();
             String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM USUARIO";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
             ResultSet resultado = sentenciaSQL.executeQuery();
-            while(resultado.next()){
+            while (resultado.next()) {
                 Integer id = resultado.getInt(1);
                 String email = resultado.getString(2);
                 String password = resultado.getString(3);
@@ -116,108 +99,87 @@ public class UsuarioDAO implements IDaoUsuario {
                 Usuario nuevo = new Usuario(id, email, password, nombre, edad);
                 hashUsuarios.put(id, nuevo);
             }
-            con.close();
             return hashUsuarios;
-        }catch(Exception ex){
         }
-        return null;
     }
 
     @Override
     public Usuario obtenerPorIndice(int index) throws Exception {
-        try{
-        Connection con = ConexionDerby.getConexion();
-        Usuario nuevo = null;
-        String id = ((Integer) index).toString();
-        String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE ID=?";
-        PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
-        sentenciaSQL.setString(1, id);
-        ResultSet resultado = sentenciaSQL.executeQuery();
-        while (resultado.next()) {
-            String email = resultado.getString(2);
-            String password = resultado.getString(3);
-            String nombre = resultado.getString(4);
-            Integer age = resultado.getInt(5);
-            nuevo = new Usuario(index, email, password, nombre, age);
+        try (Connection con = ConexionDerby.getConexion()) {
+            Usuario nuevo = null;
+            String id = ((Integer) index).toString();
+            String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE ID=?";
+            PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+            sentenciaSQL.setString(1, id);
+            ResultSet resultado = sentenciaSQL.executeQuery();
+            while (resultado.next()) {
+                String email = resultado.getString(2);
+                String password = resultado.getString(3);
+                String nombre = resultado.getString(4);
+                Integer age = resultado.getInt(5);
+                nuevo = new Usuario(index, email, password, nombre, age);
+            }
+            return nuevo;
         }
-        con.close();
-        return nuevo;
-        }catch(Exception ex){
-        
-        }
-        return null;
     }
 
     @Override
     public Usuario modificar(Usuario objConDatosNuevo) throws Exception {
-        try{
-        Connection con = ConexionDerby.getConexion();
-        String sqlQuery = "UPDATE Usuario " +
-                           "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? " +
-                            "WHERE ID = ?";
-        PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
-        sentenciaSQL.setString(1, objConDatosNuevo.getEmail());
-        sentenciaSQL.setString(2, objConDatosNuevo.getPassword());
-        sentenciaSQL.setString(3, objConDatosNuevo.getNombre());
-        String edad = ((Integer) objConDatosNuevo.getEdad()).toString();
-        sentenciaSQL.setString(4, edad);
-        String id = ((Integer) objConDatosNuevo.getId()).toString();
-        sentenciaSQL.setString(5, id);
-        sentenciaSQL.executeUpdate();
-        objConDatosNuevo = obtenerPorIndice(objConDatosNuevo.getId());
-        con.close();
-        return objConDatosNuevo;
-        }catch(Exception ex){
-        
+
+        try (Connection con = ConexionDerby.getConexion()) {
+            String sqlQuery = "UPDATE Usuario "
+                    + "SET EMAIL=?, PASSWORD=?, NOMBRE=?, AGE=? "
+                    + "WHERE ID = ?";
+            PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+            sentenciaSQL.setString(1, objConDatosNuevo.getEmail());
+            sentenciaSQL.setString(2, objConDatosNuevo.getPassword());
+            sentenciaSQL.setString(3, objConDatosNuevo.getNombre());
+            String edad = ((Integer) objConDatosNuevo.getEdad()).toString();
+            sentenciaSQL.setString(4, edad);
+            String id = ((Integer) objConDatosNuevo.getId()).toString();
+            sentenciaSQL.setString(5, id);
+            sentenciaSQL.executeUpdate();
+            objConDatosNuevo = obtenerPorIndice(objConDatosNuevo.getId());
+            return objConDatosNuevo;
         }
-        return null;
     }
 
     @Override
-    public boolean eliminar(int index) throws Exception{
-        try{
-            Connection con = ConexionDerby.getConexion();
+    public boolean eliminar(int index) throws Exception {
+        try (Connection con = ConexionDerby.getConexion()) {
             boolean eliminado = false;
-            String id = ((Integer)index).toString();
+            String id = ((Integer) index).toString();
             String sqlQuery = "DELETE FROM Usuario WHERE ID=?";
             PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
             sentenciaSQL.setString(1, id);
             sentenciaSQL.executeUpdate();
             eliminado = true;
-            con.close();
             return eliminado;
-        }catch(Exception ex){
         }
-        return false;
     }
 
     @Override
     public HashMap<Integer, Usuario> obtenerTodos(String nombre) throws Exception {
-        try{
-        Connection con = ConexionDerby.getConexion();
-        HashMap hashUsuarios = new HashMap();
+        try (Connection con = ConexionDerby.getConexion()) {
+            HashMap hashUsuarios = new HashMap();
 
-        if (nombre != "") {
-            String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE NOMBRE=?";
-            PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
-            sentenciaSQL.setString(1, nombre);
-            ResultSet resultado = sentenciaSQL.executeQuery();
-            while (resultado.next()) {
-                Integer id = resultado.getInt(1);
-                String email = resultado.getString(2);
-                String password = resultado.getString(3);
-                Integer edad = resultado.getInt(5);
-                Usuario nuevo = new Usuario(id, email, password, nombre, edad);
-                hashUsuarios.put(id, nuevo);
+            if (nombre != "") {
+                String sqlQuery = "SELECT ID, EMAIL, PASSWORD, NOMBRE, AGE FROM Usuario WHERE NOMBRE=?";
+                PreparedStatement sentenciaSQL = con.prepareStatement(sqlQuery);
+                sentenciaSQL.setString(1, nombre);
+                ResultSet resultado = sentenciaSQL.executeQuery();
+                while (resultado.next()) {
+                    Integer id = resultado.getInt(1);
+                    String email = resultado.getString(2);
+                    String password = resultado.getString(3);
+                    Integer edad = resultado.getInt(5);
+                    Usuario nuevo = new Usuario(id, email, password, nombre, edad);
+                    hashUsuarios.put(id, nuevo);
+                }
+            } else {
+                hashUsuarios = obtenerTodos();
             }
-        } else {
-            hashUsuarios = obtenerTodos();
+            return hashUsuarios;
         }
-        con.close();
-        return hashUsuarios;
-        }catch(Exception ex){
-        
-        }
-        return null;
     }
 }
