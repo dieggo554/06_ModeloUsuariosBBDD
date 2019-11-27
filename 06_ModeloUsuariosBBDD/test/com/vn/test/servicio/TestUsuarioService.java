@@ -5,8 +5,8 @@ package com.vn.test.servicio;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import com.vn.POJOs.Usuario;
-import com.vn.servicio.UsuarioServicio;
+import com.vn.appusuarios.modelo.Usuario;
+import com.vn.appusuarios.logica.ServicioUsuarios;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +41,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testCrearDosVeces() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Usuario local = new Usuario("crear" + dominio, password, nombre, edad);
         Usuario usuarioBD = srv.crear(local.getEdad() + "", local.getNombre(),local.getEmail(), local.getPassword());
         assertEquals(local, usuarioBD);
@@ -56,7 +56,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testCrearMal() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         // Campo nulo
         Usuario usuario = srv.crear(edad + "", "A", null, password);
         assertNull(usuario);
@@ -93,7 +93,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testLeerUsuarioPorId() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Usuario usuario = srv.crear(edad + "", nombre, "leerId" + dominio, password);
         Integer id = usuario.getId();
         assertEquals(usuario, srv.leer(id));
@@ -107,7 +107,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testLeerUsuarioPorEmail() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Usuario usuario = srv.crear(edad + "", nombre, "leerEmail" + dominio, password);
         assertEquals(usuario, srv.leer("leerEmail" + dominio));
         srv.eliminar(usuario.getId());
@@ -120,7 +120,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testEliminarPorId() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Usuario usuario = srv.crear(edad + "", nombre, "eliminarId" + dominio, password);
         Integer id = usuario.getId();
         assertNotNull(srv.leer("eliminarId" + dominio));
@@ -136,7 +136,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testModificarPorId() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Integer id;
         Usuario usuario = srv.crear(edad + "", nombre, "modificarIdOriginal" + dominio, password);
         id = usuario.getId();
@@ -153,7 +153,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testModificarObjecto() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Integer id;
         Usuario usuario = srv.crear(edad + "", nombre, "modificarObjOriginal" + dominio, password);
         id = usuario.getId();
@@ -171,7 +171,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testModificarPorIdMal() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Integer id;
         Usuario usuario = srv.crear(edad + "", nombre, "original" + dominio, password);
         id = usuario.getId();
@@ -189,7 +189,7 @@ public class TestUsuarioService {
      */
     @Test
     public void testLeerUsuarios() throws Exception {
-        UsuarioServicio srv = new UsuarioServicio();
+        ServicioUsuarios srv = new ServicioUsuarios();
         Usuario us1 = srv.crear("51" , nombre, "djalsdjk" + dominio, password);
         Usuario us2 = srv.crear("52", nombre, "asladjlefuiweli" + dominio, password);
         

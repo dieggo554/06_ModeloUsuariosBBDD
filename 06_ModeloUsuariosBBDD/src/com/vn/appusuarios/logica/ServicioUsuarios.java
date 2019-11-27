@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.vn.servicio;
+package com.vn.appusuarios.logica;
 
-import com.vn.DAO.UsuarioDAO;
-import com.vn.POJOs.Usuario;
-import com.vn.conexion.ConexionDerby;
+import com.vn.appusuarios.dao.UsuarioDAO;
+import com.vn.appusuarios.modelo.Usuario;
+import com.vn.appusuarios.dao.ConexionDerby;
+import com.vn.appusuarios.modelo.Usuario;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
  *
  * @author pc
  */
-public class UsuarioServicio {
+public class ServicioUsuarios {
 
     private void notificarError(String message) {
         if (err != null) {
@@ -77,7 +78,7 @@ public class UsuarioServicio {
         try {
             buscado = dao.obtenerPorIndice(id);
         } catch (Exception ex) {
-            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicioUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             notificarError("Error en UsuariosServlets.leer(id): " + ex.getMessage());
         }
         return buscado;
@@ -90,7 +91,7 @@ public class UsuarioServicio {
         try {
             buscado = dao.obtenerPorEmail(email);
         } catch (Exception ex) {
-            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicioUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             notificarError("Error en UsuariosServlets.leer(email): " + ex.getMessage());
         }
         return buscado;
@@ -102,7 +103,7 @@ public class UsuarioServicio {
         try {
             eliminado = dao.eliminar(id);
         } catch (Exception ex) {
-            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicioUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             notificarError("Error en UsuariosServlets.eliminar(id): " + ex.getMessage());
         }
         return eliminado;
@@ -142,7 +143,7 @@ public class UsuarioServicio {
         try {
             todos = dao.obtenerTodos();
         } catch (Exception ex) {
-            Logger.getLogger(UsuarioServicio.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ServicioUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             notificarError("Error en UsuariosServlets.leerTodos(): " + ex.getMessage());
         }
         return todos;
