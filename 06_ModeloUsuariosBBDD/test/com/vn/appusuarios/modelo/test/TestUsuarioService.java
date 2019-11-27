@@ -1,4 +1,4 @@
-package com.vn.appusuarios.test;
+package com.vn.appusuarios.modelo.test;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,7 +6,7 @@ package com.vn.appusuarios.test;
  * and open the template in the editor.
  */
 import com.vn.appusuarios.modelo.Usuario;
-import com.vn.appusuarios.logica.ServicioUsuarios;
+import com.vn.appusuarios.modelo.logica.ServicioUsuarios;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
