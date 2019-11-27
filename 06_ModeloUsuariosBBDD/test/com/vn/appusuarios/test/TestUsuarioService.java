@@ -1,4 +1,4 @@
-package com.vn.test.servicio;
+package com.vn.appusuarios.test;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
